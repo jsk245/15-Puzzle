@@ -37,118 +37,48 @@ class Solver {
             var smileyPos = currNode.recentMove[1]
 
             if (smileyPos % 4 > 0) {
-                if (currNode.recentMove[0] != smileyPos - 1) {
-                    var newBoard = currNode.board.slice()
-                    swap(newBoard, smileyPos, smileyPos - 1)
-                    var newNode = new Node(newBoard, currNode, [smileyPos, smileyPos - 1], currNode.numSteps + 1)
-                    var hexString = hexHelper(newNode.board)
-                    if (marked.hasOwnProperty(hexString)) {
-                        if (inPQ.hasOwnProperty(hexString)) {
-                            if (newNode.numSteps < inPQ[hexString]) {
-                                myPQ.add(newNode)
-                                inPQ[hexString] = newNode.numSteps
-                            }
-                        } else if (newNode.numSteps < marked[hexString]) {
-                            myPQ.add(newNode)
-                            inPQ[hexString] = newNode.numSteps
-                        }
-                    } else if (inPQ.hasOwnProperty(hexString)) {
-                        if (newNode.numSteps < inPQ[hexString]) {
-                            myPQ.add(newNode)
-                            inPQ[hexString] = newNode.numSteps
-                        }
-                    } else {
-                        myPQ.add(newNode)
-                            inPQ[hexString] = newNode.numSteps
-                    }
-                }
+                move(currNode, smileyPos, myPQ, inPQ, marked, -1)
             }
             if (smileyPos % 4 < 3) {
-                if (currNode.recentMove[0] != smileyPos + 1) {
-                    var newBoard = currNode.board.slice()
-                    swap(newBoard, smileyPos, smileyPos + 1)
-                    var newNode = new Node(newBoard, currNode, [smileyPos, smileyPos + 1], currNode.numSteps + 1)
-                    var hexString = hexHelper(newNode.board)
-                    if (marked.hasOwnProperty(hexString)) {
-                        if (inPQ.hasOwnProperty(hexString)) {
-                            if (newNode.numSteps < inPQ[hexString]) {
-                                myPQ.add(newNode)
-                                inPQ[hexString] = newNode.numSteps
-                            }
-                        } else if (newNode.numSteps < marked[hexString]) {
-                            myPQ.add(newNode)
-                            inPQ[hexString] = newNode.numSteps
-                        }
-                    } else if (inPQ.hasOwnProperty(hexString)) {
-                        if (newNode.numSteps < inPQ[hexString]) {
-                            myPQ.add(newNode)
-                            inPQ[hexString] = newNode.numSteps
-                        }
-                    } else {
-                        myPQ.add(newNode)
-                            inPQ[hexString] = newNode.numSteps
-                    }
-                }
+                move(currNode, smileyPos, myPQ, inPQ, marked, 1)
             }
             if (Math.floor(smileyPos / 4) > 0) {
-                if (currNode.recentMove[0] != smileyPos - 4) {
-                    var newBoard = currNode.board.slice()
-                    swap(newBoard, smileyPos, smileyPos - 4)
-                    var newNode = new Node(newBoard, currNode, [smileyPos, smileyPos - 4], currNode.numSteps + 1)
-                    var hexString = hexHelper(newNode.board)
-                    if (marked.hasOwnProperty(hexString)) {
-                        if (inPQ.hasOwnProperty(hexString)) {
-                            if (newNode.numSteps < inPQ[hexString]) {
-                                myPQ.add(newNode)
-                                inPQ[hexString] = newNode.numSteps
-                            }
-                        } else if (newNode.numSteps < marked[hexString]) {
-                            myPQ.add(newNode)
-                            inPQ[hexString] = newNode.numSteps
-                        }
-                    } else if (inPQ.hasOwnProperty(hexString)) {
-                        if (newNode.numSteps < inPQ[hexString]) {
-                            myPQ.add(newNode)
-                            inPQ[hexString] = newNode.numSteps
-                        }
-                    } else {
-                        myPQ.add(newNode)
-                            inPQ[hexString] = newNode.numSteps
-                    }
-                }
+                move(currNode, smileyPos, myPQ, inPQ, marked, -4)
             }
             if (Math.floor(smileyPos / 4) < 3) {
-                if (currNode.recentMove[0] != smileyPos + 4) {
-                    var newBoard = currNode.board.slice()
-                    swap(newBoard, smileyPos, smileyPos + 4)
-                    var newNode = new Node(newBoard, currNode, [smileyPos, smileyPos + 4], currNode.numSteps + 1)
-                    var hexString = hexHelper(newNode.board)
-                    if (marked.hasOwnProperty(hexString)) {
-                        if (inPQ.hasOwnProperty(hexString)) {
-                            if (newNode.numSteps < inPQ[hexString]) {
-                                myPQ.add(newNode)
-                                inPQ[hexString] = newNode.numSteps
-                            }
-                        } else if (newNode.numSteps < marked[hexString]) {
-                            myPQ.add(newNode)
-                            inPQ[hexString] = newNode.numSteps
-                        }
-                    } else if (inPQ.hasOwnProperty(hexString)) {
-                        if (newNode.numSteps < inPQ[hexString]) {
-                            myPQ.add(newNode)
-                            inPQ[hexString] = newNode.numSteps
-                        }
-                    } else {
-                        myPQ.add(newNode)
-                            inPQ[hexString] = newNode.numSteps
-                    }
-                }
+                move(currNode, smileyPos, myPQ, inPQ, marked, 4)
             }
         }
     }
 }
 
-
+function move(currNode, smileyPos, myPQ, inPQ, marked, direction) {
+    if (currNode.recentMove[0] != smileyPos + direction) {
+        var newBoard = currNode.board.slice()
+        swap(newBoard, smileyPos, smileyPos + direction)
+        var newNode = new Node(newBoard, currNode, [smileyPos, smileyPos + direction], currNode.numSteps + 1)
+        var hexString = hexHelper(newNode.board)
+        if (marked.hasOwnProperty(hexString)) {
+            if (inPQ.hasOwnProperty(hexString)) {
+                if (newNode.numSteps < inPQ[hexString]) {
+                    myPQ.add(newNode)
+                    inPQ[hexString] = newNode.numSteps
+                }
+            } else if (newNode.numSteps < marked[hexString]) {
+                myPQ.add(newNode)
+                inPQ[hexString] = newNode.numSteps
+            }
+        } else if (inPQ.hasOwnProperty(hexString)) {
+            if (newNode.numSteps < inPQ[hexString]) {
+                myPQ.add(newNode)
+                inPQ[hexString] = newNode.numSteps
+            }
+        } else {
+            myPQ.add(newNode)
+                inPQ[hexString] = newNode.numSteps
+        }
+    }
+}
 
 
 const hexDict = {1: "0", 2: "1", 3: "2", 4: "3", 5: "4", 6: "5", 7: "6", 8: "7", 9: "8", 10: "9",
@@ -304,71 +234,45 @@ function tryMove(i) {
     //fix counter
     function whenCalled() {
         if (i % 4 > 0) {
-            if (myArray[i-1].innerHTML == ":(" || myArray[i-1].innerHTML == ":)"
-            || myArray[i-1].innerHTML == ":D") {
-                swapContents(i, i-1)
-                if (notFreePlay) {
-                    updateStepCount()
-                    trySwapFace(i)
-                }
-                if (notFreePlay && goalReached()) {
-                    notFreePlay = false
-                    myArray[15].innerHTML = ":D"
-                    solutionSteps.innerHTML = "You Won! Our Solution Here"
-                }
+            if (domove(i, -1)) {
                 return
             }
         }
         if (i % 4 < 3) {
-            if (myArray[i+1].innerHTML == ":(" || myArray[i+1].innerHTML == ":)"
-            || myArray[i+1].innerHTML == ":D") {
-                swapContents(i, i+1)
-                if (notFreePlay) {
-                    updateStepCount()
-                    trySwapFace(i)
-                }
-                if (notFreePlay && goalReached()) {
-                    notFreePlay = false
-                    myArray[15].innerHTML = ":D"
-                    solutionSteps.innerHTML = "You Won! Our Solution Here"
-                }
+            if (domove(i, 1)) {
                 return
             }
         }
         if (Math.floor(i / 4) > 0) {
-            if (myArray[i-4].innerHTML == ":(" || myArray[i-4].innerHTML == ":)"
-            || myArray[i-4].innerHTML == ":D") {
-                swapContents(i, i-4)
-                if (notFreePlay) {
-                    updateStepCount()
-                    trySwapFace(i)
-                }
-                if (notFreePlay && goalReached()) {
-                    notFreePlay = false
-                    myArray[15].innerHTML = ":D"
-                    solutionSteps.innerHTML = "You Won! Our Solution Here"
-                }
+            if (domove(i, -4)) {
                 return
             }
         }
         if (Math.floor(i / 4) < 3) {
-            if (myArray[i+4].innerHTML == ":(" || myArray[i+4].innerHTML == ":)"
-            || myArray[i+4].innerHTML == ":D") {
-                swapContents(i, i+4)
-                if (notFreePlay) {
-                    updateStepCount()
-                    trySwapFace(i)
-                }
-                if (notFreePlay && goalReached()) {
-                    notFreePlay = false
-                    myArray[15].innerHTML = ":D"
-                    solutionSteps.innerHTML = "You Won! Our Solution Here"
-                }
+            if (domove(i, 4)) {
                 return
             }
         }
     }
     return whenCalled
+}
+
+function domove(i, displacement) {
+    if (myArray[i+displacement].innerHTML == ":(" || myArray[i+displacement].innerHTML == ":)"
+            || myArray[i+displacement].innerHTML == ":D") {
+        swapContents(i, i+displacement)
+        if (notFreePlay) {
+            updateStepCount()
+            trySwapFace(i)
+        }
+        if (notFreePlay && goalReached()) {
+            notFreePlay = false
+            myArray[15].innerHTML = ":D"
+            solutionSteps.innerHTML = "You Won! Our Solution Here"
+        }
+        return true
+    }
+    return false
 }
 
 function goalReached() {
@@ -437,8 +341,20 @@ function randomFunc() {
     solutionSteps.innerHTML = "Show Solution"
     solutionSteps.addEventListener("click", showSol)
 
+    const isRedMap = {1: false, 2: true, 3: false, 4: true, 5: true, 6: false, 7: true, 8: false, 
+        9: false, 10: true, 11: false, 12: true, 13: true, 14: false, 15: true, 16: false}
+
     for (i = 0; i < 16; i+=1) {
         myArray[i].innerHTML = i+1
+        if (!isRedMap[i+1]) {
+            if (myArray[i].classList.length == 1) {
+                myArray[i].classList.remove("red-bg")
+            }
+        } else {
+            if (myArray[i].classList.length == 0) {
+                myArray[i].classList.add("red-bg")
+            }
+        }
     }
 
     var newPos = 15
