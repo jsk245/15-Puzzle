@@ -7,7 +7,7 @@ The 15-puzzle consists of a 4x4 grid where the goal is to get numbers 1-15 in or
 ![15 Puzzle Demo](https://user-images.githubusercontent.com/93054906/163493085-198c28eb-67d3-4ef8-b914-58c692e51b18.gif)
 
 ## How to run:
-Clone this repository and naviagte into the folder "15 Puzzle" through the command line. Run python -m http.server and open localhost:8000 on your browser.
+Clone this repository and navigate into the folder "15 Puzzle" through the command line. Run python -m http.server and open localhost:8000 on your browser.
 
 ## To do:
 - Update A* heuristic.
